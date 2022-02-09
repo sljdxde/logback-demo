@@ -1,0 +1,3 @@
+20220209:16:29:18.793 [http-nio-8002-exec-2] WARN   LogCommend{xid='10001', name='tenantc', statusId='1', message='This is a message for tenant a'}
+20220209:16:29:40.832 [http-nio-8002-exec-4] WARN   LogCommend{xid='10001', name='tenant', statusId='1', message='This is a message for tenant a'}
+20220209:16:44:51.439 [http-nio-8002-exec-2] WARN   LogCommend{xid='10001', name='tenant', statusId='1', message='This is a message for tenant a'}

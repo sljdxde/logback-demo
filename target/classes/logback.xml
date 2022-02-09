@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- 定义日志文件的存储地址 -->
+    <property name="LOG_DIR" value="resource/log-save"/>
+    <!--
+            %p:输出优先级，即DEBUG,INFO,WARN,ERROR,FATAL
+            %r:输出自应用启动到输出该日志讯息所耗费的毫秒数
+            %t:输出产生该日志事件的线程名
+            %f:输出日志讯息所属的类别的类别名
+            %c:输出日志讯息所属的类的全名
+            %d:输出日志时间点的日期或时间，指定格式的方式： %d{yyyy-MM-dd HH:mm:ss}
+            %l:输出日志事件的发生位置，即输出日志讯息的语句在他所在类别的第几行。
+            %m:输出代码中指定的讯息，如log(message)中的message
+            %n:输出一个换行符号
+        -->
+    <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度 %msg：日志消息，%n是换行符-->
+    <property name="pattern" value="%d{yyyyMMdd:HH:mm:ss.SSS} [%thread] %-5level  %msg%n"/>
+
+    <!--
+        Appender: 设置日志信息的去向,常用的有以下几个
+            ch.qos.logback.core.ConsoleAppender (控制台)
+            ch.qos.logback.core.rolling.RollingFileAppender (文件大小到达指定尺寸的时候产生一个新文件)
+            ch.qos.logback.core.FileAppender (文件)
+    -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- 字符串System.out（默认）或者System.err -->
+        <target>System.out</target>
+        <!-- 对记录事件进行格式化 -->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${pattern}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="tenant_A" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}/tenantA.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 必要节点，包含文件名及"%d"转换符，"%d"可以包含一个java.text.SimpleDateFormat指定的时间格式，默认格式是 yyyy-MM-dd -->
+            <fileNamePattern>${LOG_DIR}/tenantA_%d{yyyy-MM-dd}.log.%i.gz</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>50MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <!-- 可选节点，控制保留的归档文件的最大数量，超出数量就删除旧文件。假设设置每个月滚动，如果是6，则只保存最近6个月的文件，删除之前的旧文件 -->
+            <maxHistory>10</maxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${pattern}</pattern>
+        </encoder>
+        <!-- LevelFilter： 级别过滤器，根据日志级别进行过滤 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>WARN</level>
+            <!-- 用于配置符合过滤条件的操作 ACCEPT：日志会被立即处理，不再经过剩余过滤器 -->
+            <onMatch>ACCEPT</onMatch>
+            <!-- 用于配置不符合过滤条件的操作 DENY：日志将立即被抛弃不再经过其他过滤器 -->
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <appender name="tenant_B" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}/tenantB.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 必要节点，包含文件名及"%d"转换符，"%d"可以包含一个java.text.SimpleDateFormat指定的时间格式，默认格式是 yyyy-MM-dd -->
+            <fileNamePattern>${LOG_DIR}/tenantB_%d{yyyy-MM-dd}.log.%i.gz</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>50MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <!-- 可选节点，控制保留的归档文件的最大数量，超出数量就删除旧文件。假设设置每个月滚动，如果是6，则只保存最近6个月的文件，删除之前的旧文件 -->
+            <maxHistory>10</maxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${pattern}</pattern>
+        </encoder>
+        <!-- LevelFilter： 级别过滤器，根据日志级别进行过滤 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>WARN</level>
+            <!-- 用于配置符合过滤条件的操作 ACCEPT：日志会被立即处理，不再经过剩余过滤器 -->
+            <onMatch>ACCEPT</onMatch>
+            <!-- 用于配置不符合过滤条件的操作 DENY：日志将立即被抛弃不再经过其他过滤器 -->
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <appender name="tenant_Default" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}/tenantDefault.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 必要节点，包含文件名及"%d"转换符，"%d"可以包含一个java.text.SimpleDateFormat指定的时间格式，默认格式是 yyyy-MM-dd -->
+            <fileNamePattern>${LOG_DIR}/tenantDefault_%d{yyyy-MM-dd}.log.%i.gz</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>50MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <!-- 可选节点，控制保留的归档文件的最大数量，超出数量就删除旧文件。假设设置每个月滚动，如果是6，则只保存最近6个月的文件，删除之前的旧文件 -->
+            <maxHistory>10</maxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${pattern}</pattern>
+        </encoder>
+        <!-- LevelFilter： 级别过滤器，根据日志级别进行过滤 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>WARN</level>
+            <!-- 用于配置符合过滤条件的操作 ACCEPT：日志会被立即处理，不再经过剩余过滤器 -->
+            <onMatch>ACCEPT</onMatch>
+            <!-- 用于配置不符合过滤条件的操作 DENY：日志将立即被抛弃不再经过其他过滤器 -->
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <!-- 文件 异步日志(async) -->
+    <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender" >
+        <!-- 不丢失日志.默认的,如果队列的80%已满,则会丢弃TRACT、DEBUG、INFO级别的日志 -->
+        <discardingThreshold>0</discardingThreshold>
+        <!-- 更改默认的队列的深度,该值会影响性能.默认值为256 -->
+        <queueSize>512</queueSize>
+        <neverBlock>true</neverBlock>
+        <!-- 添加附加的appender,最多只能添加一个 -->
+        <appender-ref ref="tenant_A" />
+        <appender-ref ref="tenant_B" />
+        <appender-ref ref="tenant_Default" />
+    </appender>
+
+    <!--
+        也是<logger>元素，但是它是根logger。默认debug
+        level:用来设置打印级别，大小写无关：TRACE, DEBUG, INFO, WARN, ERROR, ALL 和 OFF，
+        <root>可以包含零个或多个<appender-ref>元素，标识这个appender将会添加到这个logger。
+    -->
+    <root level="info">
+        <level>info</level>
+<!--        <appender-ref ref="STDOUT"/>-->
+        <appender-ref ref="ASYNC"/>
+        <appender-ref ref="tenant_A"/>
+        <appender-ref ref="tenant_B"/>
+        <appender-ref ref="tenant_Default"/>
+    </root>
+
+    <logger name="com.example.logback.domain.factory.DefaultLogger" level="warn" additivity="false">
+        <level value="warn"/>
+        <appender-ref ref="tenant_Default"/>
+    </logger>
+
+    <logger name="com.example.logback.domain.factory.TenantALogger" level="warn" additivity="false">
+        <level value="warn"/>
+        <appender-ref ref="tenant_A"/>
+    </logger>
+
+    <logger name="com.example.logback.domain.factory.TenantBLogger" level="warn" additivity="false">
+        <level value="warn"/>
+        <appender-ref ref="tenant_B"/>
+    </logger>
+
+</configuration>
